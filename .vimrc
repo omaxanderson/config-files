@@ -36,27 +36,36 @@ set scrolloff=3
 " it will show the command you've been typing
 set showcmd
 
-" =============  Bracket and quote auto-match remaps  =============
-inoremap ( ()<Esc>i
-inoremap { {}<Esc>i
-inoremap [ []<Esc>i
-inoremap ' ''<Esc>i
-inoremap " ""<Esc>i
+" ==============  Normal Mode Mappings  ==============
 
-inoremap (<CR> (<CR>)<Esc>ko
-inoremap {<CR> {<CR>}<Esc>ko
-inoremap [<CR> [<CR>]<Esc>ko
+" Space in normal mode selects entire word
+nnoremap <space> viw 
+nnoremap <c-u> viw~e
 
-" =============  Movement alterations ==============
-"
-" move vertically by visual line
-" basically tells vim not to skip over long wrapped lines
+" Move vertically by visual line
+" Basically tells vim not to skip over long wrapped lines
 nnoremap j gj
 nnoremap k gk
 
 " Move to beginning/end of line
-nnoremap B ^
-nnoremap E $
+nnoremap B ^ 
+nnoremap E $ 
+
+" Move line up or down
+nnoremap - ddp 
+nnoremap _ ddkP
+
+" ==============  Insert Mode Mappings  ==============
+
+" Bracket auto-match remaps 
+inoremap (<CR> (<CR>)<Esc>ko
+inoremap {<CR> {<CR>}<Esc>ko
+inoremap [<CR> [<CR>]<Esc>ko
+
+" Cmd-u will toggle the current word's case
+inoremap <c-u> <esc>viw~ea
+
+" ==============  Visual Mode Mappings  ==============
 
 set autoread
 au FocusGained,BufEnter * :checktime
