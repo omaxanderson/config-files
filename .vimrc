@@ -36,6 +36,17 @@ set scrolloff=3
 " it will show the command you've been typing
 set showcmd
 
+" =============  Bracket and quote auto-match remaps  =============
+inoremap ( ()<Esc>i
+inoremap { {}<Esc>i
+inoremap [ []<Esc>i
+inoremap ' ''<Esc>i
+inoremap " ""<Esc>i
+
+inoremap (<CR> (<CR>)<Esc>ko
+inoremap {<CR> {<CR>}<Esc>ko
+inoremap [<CR> [<CR>]<Esc>ko
+
 " =============  Movement alterations ==============
 "
 " move vertically by visual line
