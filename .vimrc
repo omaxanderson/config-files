@@ -43,6 +43,10 @@ set showcmd
 nnoremap <space> viw 
 nnoremap <c-u> viw~e
 
+" Insert line above and below
+nnoremap <leader>O O<esc>j
+nnoremap <leader>o o<esc>k
+
 " Move vertically by visual line
 " Basically tells vim not to skip over long wrapped lines
 nnoremap j gj
