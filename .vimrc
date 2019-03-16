@@ -2,6 +2,7 @@ filetype plugin indent on
 
 syntax on
 
+" possible indent plugin: vim-sleuth
 set tabstop=3
 set shiftwidth=3
 set relativenumber
