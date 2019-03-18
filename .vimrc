@@ -1,3 +1,15 @@
+set nocompatible
+
+" Use Vundle to add plugins
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'Valloric/YouCompleteMe'
+
+call vundle#end()
+
 filetype plugin indent on
 
 syntax on
@@ -38,6 +50,10 @@ set scrolloff=3
 set showcmd
 
 " ==============  Normal Mode Mappings  ==============
+
+" Leader-g to go-to, Leader-b to go back
+nnoremap <leader>g viw:tag <c-r>"<CR>
+nnoremap <leader>b <c-t>
 
 " Space in normal mode selects entire word
 nnoremap <space> viw 
