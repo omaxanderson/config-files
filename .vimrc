@@ -2,6 +2,9 @@ set nocompatible
 
 " Use Vundle to add plugins
 set rtp+=~/.vim/bundle/Vundle.vim
+" Allows for fuzzy search in vim
+set rtp+=/usr/local/opt/fzf
+
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -11,6 +14,9 @@ Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
 
 filetype plugin indent on
+
+" jump to last line edited in the file
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 syntax on
 
@@ -49,11 +55,25 @@ set scrolloff=3
 " it will show the command you've been typing
 set showcmd
 
+let mapleader = ","
+let localleader = "\\"
+
+" Auto-commands that run when you change the filetype
+autocmd FileType javascript nnoremap <buffer> <leader>c I// <esc>
+autocmd FileType php nnoremap <buffer> <leader>c I// <esc>
+autocmd FileType python nnoremap <buffer> <leader>c I# <esc>
+autocmd FileType vim nnoremap <buffer> <leader>c I" <esc>
+autocmd FileType sh nnoremap <buffer> <leader>c I# <esc>
+
 " ==============  Normal Mode Mappings  ==============
 
 " Leader-g to go-to, Leader-b to go back
 nnoremap <leader>g viw:tag <c-r>"<CR>
 nnoremap <leader>b <c-t>
+
+" Quick shortcuts to edit and source my vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " Space in normal mode selects entire word
 nnoremap <space> viw 
