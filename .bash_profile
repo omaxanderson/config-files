@@ -17,3 +17,9 @@ parse_git_branch() {
 export PS1="\[\033[0;32m\] omax\[\033[0m\]:\[\033[0;96m\]\w\[\033[0m\]\[\033[0;31m\]\$(parse_git_branch)\[\033[00m\] $ "
 
 export PATH=$HOME/bin:$PATH
+
+# fuzzy finder default options
+export FZF_DEFAULT_OPTS='--height 40% --border'
+export FZF_COMPLETION_TRIGGER=','
+
+alias vif='vi $(fzf)'
