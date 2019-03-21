@@ -23,3 +23,4 @@ export FZF_DEFAULT_OPTS='--height 40% --border'
 export FZF_COMPLETION_TRIGGER=','
 
 alias vif='vi $(fzf)'
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
