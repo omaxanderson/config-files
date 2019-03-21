@@ -11,6 +11,8 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe'
 
+Plugin 'tpope/vim-fugitive'
+
 call vundle#end()
 
 filetype plugin indent on
@@ -20,9 +22,18 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g
 
 syntax on
 
-" possible indent plugin: vim-sleuth
+" Tab settings
+set expandtab     " This hurts my soul but for the sake of consistency i'll use it
 set tabstop=3
 set shiftwidth=3
+
+" Set the list options for whitespace
+set list
+set listchars=""
+set listchars=tab:»\·
+set listchars+=trail:·
+
+" Set the actual line number and relative line numbers
 set relativenumber
 set number
 
