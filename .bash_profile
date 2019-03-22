@@ -21,6 +21,19 @@ export PATH=$HOME/bin:$PATH
 # fuzzy finder default options
 export FZF_DEFAULT_OPTS='--height 40% --border'
 export FZF_COMPLETION_TRIGGER=','
+export FZF_DEFAULT_COMMAND='rg --files --glob=!node_modules/ --glob=!materialize.* --glob=!*.min.*'
 
 alias vif='vi $(fzf)'
+
+# install the autocomplete options
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# File/path options for autocomplete
+_fzf_compgen_path() {
+   rg --files
+}
+
+# Directory autocomplete options
+_fzf_compgen_dir() {
+   fd --type d --hidden --follow --exclude=".git" .
+}
