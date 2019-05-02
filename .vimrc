@@ -152,6 +152,13 @@ autocmd FileType sh nnoremap <buffer> <leader>c I# <esc>
 " }}}
 
 " Normal Mode Mappings {{{
+
+" Arrow key split resize
+nnoremap <Up> <c-w>+
+nnoremap <Down> <c-w>-
+nnoremap <Right> <c-w>>
+nnoremap <Left> <c-w><
+
 " NERDTree Mapping
 nnoremap <c-n> :NERDTreeToggle<CR>
 
