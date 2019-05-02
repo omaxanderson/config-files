@@ -1,3 +1,5 @@
+"@TODO look into easymotion plugin
+
 set nocompatible
 
 " Plugin Management ----------------- {{{
