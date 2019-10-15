@@ -1,21 +1,25 @@
-"@TODO look into easymotion plugin
-
 set nocompatible
 
 " Plugin Management ----------------- {{{
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=/usr/local/opt/fzf
+
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
+" NERDTree for easier directory navigation
 Plugin 'scrooloose/nerdtree'
+
+" Fuzzy finder in vim
 Plugin 'junegunn/fzf.vim'
 
+" Git plugin
 Plugin 'tpope/vim-fugitive'
 
-Plugin 'flazz/vim-colorschemes'
-Plugin 'felixhummel/setcolors.vim'
+" Tons of colorschemes to use
+" Plugin 'flazz/vim-colorschemes'
+" Plugin 'felixhummel/setcolors.vim'
 
 " Ripgrep for vim
 Plugin 'jremmen/vim-ripgrep'
@@ -32,8 +36,19 @@ Plugin 'jremmen/vim-ripgrep'
 
 " Plugin 'Valloric/YouCompleteMe'
 
+Plugin 'rust-lang/rust.vim'
+
+" Plugin 'w0rp/ale'
+Plugin 'vim-syntastic/syntastic'
+
+Plugin 'easymotion/vim-easymotion'
+Plugin 'Yggdroot/indentLine'
+
+Plugin 'junegunn/vim-easy-align'
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+
 call vundle#end()
-" }}} 
+" }}}
 
 " Get the current highlighting groups -------------{{{
 function! SynStack()
@@ -44,19 +59,19 @@ function! SynStack()
 endfunc
 " }}}
 
-" Vimscript file settings ------------------ {{{
-augroup filetype_vim
-   autocmd!
-   autocmd FileType vim setlocal foldmethod=marker
-   autocmd FileType vim setlocal foldlevelstart=0
-augroup END
-" }}}
+" Ale plugin config ------------- {{{
+let g:ale_sign_column_always = 0
+highlight ALEError ctermbg=Black
+
+"  }}}
 
 " jump to last line edited in the file
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 filetype plugin indent on
 syntax on
+
+let g:indentLine_enabled = 0
 
 " Status line ------------ {{{
 set statusline=%f                   " Filename
@@ -76,19 +91,31 @@ set laststatus=2                    " Show statusline on second to last line
 let g:ctags_statusline=1
 " }}}
 
-" Fold highlight group colors
-highlight Folded ctermbg=Black ctermfg=Yellow
+" Folding ------------------------- {{{
 
-" Vimscript file settings -------------------- {{{
-augroup filetype_vim
-   autocmd!
-   autocmd Filetype vim setlocal foldmethod=marker
-" }}}
+" Vimscript file settings
+" augroup filetype_vim
+   " autocmd!
+   " autocmd FileType vim setlocal foldmethod=marker
+   " autocmd FileType vim setlocal foldlevelstart=0
+" augroup END
+
+" Method for automatically setting the fold type and level
+function! FoldClass()
+   set foldmethod=indent
+   set foldlevel=1
+endfunction
+
+function! UnFoldClass()
+   set foldlevel=99
+endfunction
+
+highlight Folded ctermbg=Black ctermfg=Yellow
 
 " Tab settings ------------- {{{
 set expandtab     " This hurts my soul but for the sake of consistency i'll use it
-set tabstop=3
-set shiftwidth=3
+set tabstop=4
+set shiftwidth=4
 " }}}
 
 " Line numbers {{{
@@ -103,7 +130,7 @@ set list
 set listchars=""
 set listchars=tab:»\ 
 set listchars+=trail:·
-" }}} 
+" }}}
 
 " Searching {{{
 " For case insensitive searching smartcase will add case sensitivity if you add capital letters to the regex
@@ -142,18 +169,53 @@ set showcmd
 
 " }}}
 
+" Tags file set to search going upward in the directory hierarchy
+set tags=tags;
+
 let mapleader = ","
 let localleader = "\\"
 
+" Rust filetype autocommands {{{
+augroup rustfiles
+   autocmd FileType rust nnoremap <buffer> <leader>c I// <esc>
+   autocmd FileType rust set tabstop=4
+   autocmd FileType rust set shiftwidth=4
+   autocmd FileType rust set expandtab
+augroup END
+
+" }}}
+
 " Filetype autocommands {{{
 autocmd FileType javascript nnoremap <buffer> <leader>c I// <esc>
+autocmd FileType javascript set tabstop=4
+autocmd FileType javascript set shiftwidth=4
 autocmd FileType php nnoremap <buffer> <leader>c I// <esc>
 autocmd FileType python nnoremap <buffer> <leader>c I# <esc>
 autocmd FileType vim nnoremap <buffer> <leader>c I" <esc>
 autocmd FileType sh nnoremap <buffer> <leader>c I# <esc>
+autocmd FileType twig set syntax=html
+autocmd FileType cucumber,yaml set tabstop=2
+autocmd FileType cucumber,yaml set shiftwidth=2
+autocmd BufNewFile,BufRead Dockerfile* setlocal filetype=dockerfile
+autocmd BufNewFile,BufRead *.ts setlocal filetype=javascript
+autocmd BufNewFile,BufRead *.ts set tabstop=2
+autocmd BufNewFile,BufRead *.ts set shiftwidth=2
 " }}}
-
 " Normal Mode Mappings {{{
+
+" TESTING easymotion commands
+" nnoremap <leader>j <Plug>(easymotion-j)
+" nnoremap <leader>k <Plug>(easymotion-k)
+nnoremap <leader>i :IndentLinesToggle<CR>
+
+nnoremap <leader>ss :mksession! ~/.vim-sessions/*.vim<c-d><BS><BS><BS><BS><BS>
+nnoremap <leader>sr :source ~/.vim-sessions/*.vim<c-d><BS><BS><BS><BS><BS>
+
+" Easier window switching
+nnoremap <c-j> <c-w>j
+nnoremap <c-h> <c-w>h
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 
 " Arrow key split resize
 nnoremap <Up> <c-w>+
@@ -161,12 +223,19 @@ nnoremap <Down> <c-w>-
 nnoremap <Right> <c-w>>
 nnoremap <Left> <c-w><
 
+" Folding
+nnoremap <leader>f za
+nnoremap <localleader>c :call FoldClass()<cr>
+nnoremap <localleader>uc :call UnFoldClass()<cr>
+
 " NERDTree Mapping
 nnoremap <c-n> :NERDTreeToggle<CR>
 
 " Ctags is required for this I believe
 nnoremap <leader>g viwy:tabe<CR>:tjump <c-r>"<CR>
-nnoremap <leader>b <c-t>
+
+" Go to previous buffer
+nnoremap <leader>b :b#<CR>
 
 " Quick shortcuts to edit and source my vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -195,6 +264,7 @@ nnoremap - ddp
 nnoremap _ ddkP
 " }}}
 
+
 " Insert Mode Mappings  {{{
 
 " Uncomment this line to learn your new jk mapping for insert mode
@@ -209,6 +279,7 @@ iabbrev taht that
 inoremap (<CR> (<CR>)<Esc>ko
 inoremap {<CR> {<CR>}<Esc>ko
 inoremap [<CR> [<CR>]<Esc>ko
+inoremap ({<CR> ({<CR>})<Esc>ko
 
 " Cmd-u will toggle the current word's case
 inoremap <c-u> <esc>viw~ea
@@ -221,7 +292,9 @@ vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>lel
 vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>lel
 
 vnoremap <leader>cp :w !pbcopy<cr><cr>
-" }}} 
+
+vnoremap <leader>a :EasyAlign<cr>=
+" }}}
 
 " Operator/Movement Mappings {{{
 
